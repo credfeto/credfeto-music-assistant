@@ -9,7 +9,7 @@ docker volume create \
   --opt device=/data \
   musicassistant_data
 
-docker compose up -d
+docker compose up -d --remove-orphans
 
 # Web
 sudo firewall-cmd --permanent --add-rich-rule='rule family="ipv4" source address="10.0.0.0/8" port protocol="tcp" port="8095" accept'

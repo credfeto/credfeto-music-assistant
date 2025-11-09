@@ -1,12 +1,12 @@
 services:
   watchtower:
     image: containrrr/watchtower
-    container_name: devpkg-watchtower
+    container_name: watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: always
     environment:
-      WATCHTOWER_NOTIFICATIONS_HOSTNAME: dev-cache
+      WATCHTOWER_NOTIFICATIONS_HOSTNAME: music-assistant
       WATCHTOWER_POLL_INTERVAL: 3600
 
   music-assistant-server:

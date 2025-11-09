@@ -1,12 +1,22 @@
 services:
+  watchtower:
+    image: containrrr/watchtower
+    container_name: devpkg-watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+    environment:
+      WATCHTOWER_NOTIFICATIONS_HOSTNAME: dev-cache
+      WATCHTOWER_POLL_INTERVAL: 3600
+
   music-assistant-server:
     image: ghcr.io/music-assistant/server:latest # <<< Desired release version here (or use beta to get the latest beta version)
     container_name: music-assistant-server
-    restart: unless-stopped
+    restart: always
     # Network mode must be set to host for MA to work correctly
     network_mode: host
     volumes:
-      - ${USERDIR:-$HOME}/docker/music-assistant-server/data:/data/
+      - musicassistant_data:/data/
     # privileged caps (and security-opt) needed to mount smb folders within the container
     cap_add:
       - SYS_ADMIN
@@ -17,3 +27,8 @@ services:
       # Provide logging level as environment variable.
       # default=info, possible=(critical, error, warning, info, debug)
       - LOG_LEVEL=info
+
+volumes:
+  musicassistant_data:
+    name: musicassistant_data
+    external: true

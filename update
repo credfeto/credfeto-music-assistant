@@ -1,0 +1,16 @@
+#! /bin/sh
+
+echo "Create Volumes"
+mkdir -p /data
+
+docker volume create \
+  --opt type=none \
+  --opt o=bind \
+  --opt device=/data \
+  musicassistant_data
+
+docker compose update -d
+
+sudo firewall-cmd --permanent --add-rich-rule='rule family="ipv4" source address="10.0.0.0/8" port protocol="tcp" port="8095" accept'
+sudo firewall-cmd --permanent --add-rich-rule='rule family="ipv4" source address="192.168.0.0/16" port protocol="tcp" port="8095" accept'
+sudo firewall-cmd --permanent --add-rich-rule='rule family="ipv4" source address="172.16.0.0/20" port protocol="tcp" port="8095" accept'
